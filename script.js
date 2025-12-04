@@ -81,39 +81,60 @@ function insertFunction(fn) {
 function calculate(numA, numB, op) {
   const a = parseFloat(numA);
   const b = parseFloat(numB);
-
+	let result;
   switch (op) {
     case "+":
-      return (a + b).toString();
+      result = a + b;
+			break;
     case "-":
-      return (a - b).toString();
+      result = a - b;
+			break;
     case "*":
-      return (a * b).toString();
+      result = a * b;
+			break;
     case "/":
       if (b === 0) return "Error";
-      return (a / b).toString();
+      result = a / b;
+			break;
     default:
       return numB;
   }
+	return result.toString();
 }
-
-updateDisplay();
 
 // It's winter time :)
 const NUM_FLAKES = 80;
 
 const rand = (min, max) => Math.random() * (max - min) + min;
 
-for (let i = 0; i < NUM_FLAKES; i++) {
-  const flake = document.createElement("div");
-  flake.className = "snowflake";
+function generateFakeSnow() {
 
-  const size = rand(3, 8);
+  const flake = document.createElement("div");
+
+	const randomDepth = Math.floor(rand(0, 3));
+	const depthClass = 
+		randomDepth === 0
+		? 'snowflake-close'
+		: randomDepth === 1 
+		? 'snowflake-far'
+		: 'snowflake-little-far';
+	
+	flake.className = `snowflake ${depthClass}`;
+
+  const size = rand(4, 10);
 
   flake.style.left = `${rand(0, 100)}vw`;
   flake.style.animationDuration = `${rand(5, 10)}s`;
-  flake.style.opacity = rand(0.3, 1);
   flake.style.width = flake.style.height = `${size}px`;
 
   document.body.appendChild(flake);
 }
+
+function makeItRainSnow () {
+	for (let i = 0; i < NUM_FLAKES; i++) {
+		generateFakeSnow();
+	}
+}
+
+updateDisplay();
+makeItRainSnow();
